@@ -1,18 +1,29 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <table>
+      <tr>
+        <td>번호</td>
+        <td>제목</td>
+        <td>클릭횟수(조회수)</td>
+      </tr>
+      <tr v-for="data in $store.state.board" :key="data.id"
+      @click="[$router.push(`/board/${data.id}`), addcount($route.params.id)]">
+        <td>{{data.id}}</td>
+        <td>{{data.title}}</td>
+        <td>{{data.count}}</td>
+      </tr>
+    </table>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import { mapMutations } from 'vuex'
 export default {
   name: 'HomeView',
-  components: {
-    HelloWorld
+  methods: {
+    ...mapMutations([
+      'addcount'
+    ])
   }
 }
 </script>

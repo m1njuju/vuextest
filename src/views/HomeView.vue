@@ -6,24 +6,32 @@
         <td>제목</td>
         <td>클릭횟수(조회수)</td>
       </tr>
-      <tr v-for="data in $store.state.board" :key="data.id"
-      @click="[$router.push(`/board/${data.id}`), addcount($route.params.id)]">
-        <td>{{data.id}}</td>
-        <td>{{data.title}}</td>
-        <td>{{data.count}}</td>
+      <tr v-for="board in $store.state.boardlist" :key="board.id">
+        <td>{{board.id}}</td>
+        <!-- 클릭했을 때 /board/board.id 위치로 이동하기 -->
+        <!-- router-link를 사용하게 되면 클릭이벤트가 사용되지 않는다 -->
+        <td @click="addcount(board.id)">{{board.title}}</td>
+        <td>{{board.count}}</td>
       </tr>
+
     </table>
+
+    <!-- 값을 사용하기 전에 값이 제대로 출력되는지 확인하기 -->
+    <!--
+      <h3>{{$store.state.boardlist}}</h3>
+    -->
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
 export default {
   name: 'HomeView',
   methods: {
-    ...mapMutations([
-      'addcount'
-    ])
+    addcount(id) {
+      // store에 있는 mutations사용
+      this.$store.commit('addcount', id);
+      this.$router.push(`/board/${id}`);
+    }
   }
 }
 </script>
